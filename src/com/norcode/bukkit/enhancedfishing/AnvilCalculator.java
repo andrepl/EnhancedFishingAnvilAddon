@@ -1,7 +1,11 @@
 package com.norcode.bukkit.enhancedfishing;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
 import org.bukkit.craftbukkit.v1_5_R2.inventory.CraftItemStack;
 
 import net.minecraft.server.v1_5_R2.Enchantment;
@@ -11,7 +15,7 @@ import net.minecraft.server.v1_5_R2.ItemStack;
 
 public class AnvilCalculator {
 
-    public static AnvilResult calculateCost(ItemStack itemstack, ItemStack itemstack2) {
+    public static AnvilResult calculateCost(ItemStack itemstack, ItemStack itemstack2, Set<Integer> validEnchantmentIds) {
         int totalCost= 0;
         int i = 0;
         byte b0 = 0;
@@ -22,6 +26,12 @@ public class AnvilCalculator {
         } else {
             ItemStack itemstack1 = itemstack.cloneItemStack();
             Map<Integer, Integer> map = EnchantmentManager.a(itemstack1);
+            Map<Integer, Integer> filteredMap = new HashMap<Integer, Integer>();
+            for (Entry<Integer, Integer> e: filteredMap.entrySet()) {
+                if (validEnchantmentIds.contains(e.getKey())) {
+                    filteredMap.put(e.getKey(), e.getValue());
+                }
+            }
             boolean flag = false;
             int k = b0 + itemstack.getRepairCost() + (itemstack2 == null ? 0 : itemstack2.getRepairCost());
 
@@ -45,7 +55,7 @@ public class AnvilCalculator {
                     for (i1 = 0; l > 0 && i1 < itemstack2.count; ++i1) {
                         j1 = itemstack1.j() - l;
                         itemstack1.setData(j1);
-                        i += Math.max(1, l / 100) + map.size();
+                        i += Math.max(1, l / 100) + filteredMap.size();
                         l = Math.min(itemstack1.j(), itemstack1.l() / 4);
                     }
                 } else {
@@ -78,7 +88,7 @@ public class AnvilCalculator {
                     while (iterator.hasNext()) {
                         j1 = ((Integer) iterator.next()).intValue();
                         enchantment = Enchantment.byId[j1];
-                        k1 = map.containsKey(Integer.valueOf(j1)) ? ((Integer) map.get(Integer.valueOf(j1))).intValue() : 0;
+                        k1 = filteredMap.containsKey(Integer.valueOf(j1)) ? ((Integer) filteredMap.get(Integer.valueOf(j1))).intValue() : 0;
                         l1 = ((Integer) map1.get(Integer.valueOf(j1))).intValue();
                         int j2;
 
@@ -97,7 +107,7 @@ public class AnvilCalculator {
 //                            flag1 = true;
 //                        }
 
-                        Iterator iterator1 = map.keySet().iterator();
+                        Iterator iterator1 = filteredMap.keySet().iterator();
 
                         while (iterator1.hasNext()) {
                             int l2 = ((Integer) iterator1.next()).intValue();
@@ -112,7 +122,7 @@ public class AnvilCalculator {
                                 l1 = enchantment.getMaxLevel();
                             }
 
-                            map.put(Integer.valueOf(j1), Integer.valueOf(l1));
+                            filteredMap.put(Integer.valueOf(j1), Integer.valueOf(l1));
                             int i3 = 0;
 
                             switch (enchantment.getRandomWeight()) {
@@ -162,10 +172,10 @@ public class AnvilCalculator {
 
             l = 0;
 
-            for (iterator = map.keySet().iterator(); iterator.hasNext(); k += l + k1 * l1) {
+            for (iterator = filteredMap.keySet().iterator(); iterator.hasNext(); k += l + k1 * l1) {
                 j1 = ((Integer) iterator.next()).intValue();
                 enchantment = Enchantment.byId[j1];
-                k1 = ((Integer) map.get(Integer.valueOf(j1))).intValue();
+                k1 = ((Integer) filteredMap.get(Integer.valueOf(j1))).intValue();
                 l1 = 0;
                 ++l;
                 switch (enchantment.getRandomWeight()) {
@@ -232,12 +242,12 @@ public class AnvilCalculator {
 
                 i1 += 2;
                 itemstack1.setRepairCost(i1);
-                EnchantmentManager.a(map, itemstack1);
+                EnchantmentManager.a(filteredMap, itemstack1);
             }
             return new AnvilResult(totalCost, itemstack1 == null ? null : CraftItemStack.asBukkitCopy(itemstack1).getEnchantments());
         }
     }
-    
+
     public static class AnvilResult {
         int cost;
         Map<org.bukkit.enchantments.Enchantment, Integer> enchantments;

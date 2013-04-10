@@ -1,5 +1,5 @@
 name: EnhancedFishingAnvilAddon
-version: 0.0.1
+version: 0.0.2
 description: Addon for EnhancedFishing to allow enchanting fishing rods with enchanted books.
 author: metalhedd
 depend: [EnhancedFishing]
