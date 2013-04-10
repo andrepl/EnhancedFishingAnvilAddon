@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_5_R2.inventory.CraftItemStack;
 
 import net.minecraft.server.v1_5_R2.Enchantment;
@@ -27,9 +28,10 @@ public class AnvilCalculator {
             ItemStack itemstack1 = itemstack.cloneItemStack();
             Map<Integer, Integer> map = EnchantmentManager.a(itemstack1);
             Map<Integer, Integer> filteredMap = new HashMap<Integer, Integer>();
-            for (Entry<Integer, Integer> e: filteredMap.entrySet()) {
+            for (Entry<Integer, Integer> e: map.entrySet()) {
                 if (validEnchantmentIds.contains(e.getKey())) {
                     filteredMap.put(e.getKey(), e.getValue());
+                } else {
                 }
             }
             boolean flag = false;
@@ -82,14 +84,19 @@ public class AnvilCalculator {
                     }
 
                     Map<Integer, Integer> map1 = EnchantmentManager.a(itemstack2);
-
-                    iterator = map1.keySet().iterator();
+                    Map<Integer, Integer> filteredMap1 = new HashMap<Integer, Integer>();
+                    for (Entry<Integer, Integer> e: map1.entrySet()) {
+                        if (validEnchantmentIds.contains(e.getKey())) {
+                            filteredMap.put(e.getKey(), e.getValue());
+                        }
+                    }
+                    iterator = filteredMap1.keySet().iterator();
 
                     while (iterator.hasNext()) {
                         j1 = ((Integer) iterator.next()).intValue();
                         enchantment = Enchantment.byId[j1];
                         k1 = filteredMap.containsKey(Integer.valueOf(j1)) ? ((Integer) filteredMap.get(Integer.valueOf(j1))).intValue() : 0;
-                        l1 = ((Integer) map1.get(Integer.valueOf(j1))).intValue();
+                        l1 = ((Integer) filteredMap1.get(Integer.valueOf(j1))).intValue();
                         int j2;
 
                         if (k1 == l1) {

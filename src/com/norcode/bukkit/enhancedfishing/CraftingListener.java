@@ -65,18 +65,18 @@ public class CraftingListener implements Listener {
                             if (plugin.isThornsEnabled() && player.hasPermission("enhancedfishing.enchantment.thorns")) {
                                 validEnchantmentIds.add(Enchantment.THORNS.getId());
                             }
-                            
                             try {
                                 Field containerField = ContainerAnvilInventory.class.getDeclaredField("a");
                                 containerField.setAccessible(true);
                                 ContainerAnvil anvil = (ContainerAnvil) containerField.get(nmsInv);
                                 AnvilResult anvilResult = AnvilCalculator.calculateCost(CraftItemStack.asNMSCopy(first), CraftItemStack.asNMSCopy(second), validEnchantmentIds);
-                                if (anvilResult.getEnchantments() != null) {
+                                if (anvilResult.getEnchantments() != null && !anvilResult.getEnchantments().isEmpty()) {
                                     anvil.a = anvilResult.getCost();
                                     resultStack.addUnsafeEnchantments(anvilResult.getEnchantments());
                                     ((CraftInventoryAnvil)ai).getResultInventory().setItem(0, CraftItemStack.asNMSCopy(resultStack));
+                                    ((CraftPlayer) player).getHandle().setContainerData(anvil, 0, anvil.a);
                                 }
-                                ((CraftPlayer) player).getHandle().setContainerData(anvil, 0, anvil.a);
+                                
                             } catch (NoSuchFieldException e) {
                                 e.printStackTrace();
                             } catch (SecurityException e) {
