@@ -39,7 +39,7 @@
     <dependency>
         <groupId>com.norcode.bukkit.enhancedfishing</groupId>
         <artifactId>EnhancedFishing</artifactId>
-        <version>0.0.4-SNAPSHOT</version>
+        <version>0.0.4</version>
     </dependency>
   </dependencies>
 </project>

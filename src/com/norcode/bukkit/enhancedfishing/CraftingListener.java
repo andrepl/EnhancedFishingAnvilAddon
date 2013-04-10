@@ -50,19 +50,19 @@ public class CraftingListener implements Listener {
                             ContainerAnvilInventory nmsInv = (ContainerAnvilInventory) ((CraftInventoryAnvil) ai).getInventory();
                             Set<Integer> validEnchantmentIds = new HashSet<Integer>();
                             // get valid enchantment ids
-                            if (plugin.isEfficiencyEnabled() && player.hasPermission("enhancedfishing.enchantment.efficiency")) {
+                            if (plugin.getWorldConfiguration(player.getWorld()).isEfficiencyEnabled() && player.hasPermission("enhancedfishing.enchantment.efficiency")) {
                                 validEnchantmentIds.add(Enchantment.DIG_SPEED.getId());
                             }
-                            if (plugin.isLootingEnabled() && player.hasPermission("enhancedfishing.enchantment.looting")) {
+                            if (plugin.getWorldConfiguration(player.getWorld()).isLootingEnabled() && player.hasPermission("enhancedfishing.enchantment.looting")) {
                                 validEnchantmentIds.add(Enchantment.LOOT_BONUS_MOBS.getId());
                             }
-                            if (plugin.isFortuneEnabled() && player.hasPermission("enhancedfishing.enchantment.fortune")) {
+                            if (plugin.getWorldConfiguration(player.getWorld()).isFortuneEnabled() && player.hasPermission("enhancedfishing.enchantment.fortune")) {
                                 validEnchantmentIds.add(Enchantment.LOOT_BONUS_BLOCKS.getId());
                             }
-                            if (plugin.isFireAspectEnabled() && player.hasPermission("enhancedfishing.enchantment.fireaspect")) {
+                            if (plugin.getWorldConfiguration(player.getWorld()).isFireAspectEnabled() && player.hasPermission("enhancedfishing.enchantment.fireaspect")) {
                                 validEnchantmentIds.add(Enchantment.FIRE_ASPECT.getId());
                             }
-                            if (plugin.isThornsEnabled() && player.hasPermission("enhancedfishing.enchantment.thorns")) {
+                            if (plugin.getWorldConfiguration(player.getWorld()).isThornsEnabled() && player.hasPermission("enhancedfishing.enchantment.thorns")) {
                                 validEnchantmentIds.add(Enchantment.THORNS.getId());
                             }
                             try {
