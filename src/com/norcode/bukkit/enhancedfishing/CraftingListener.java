@@ -34,6 +34,8 @@ public class CraftingListener implements Listener {
 
     @EventHandler(ignoreCancelled=true, priority=EventPriority.HIGHEST)
     public void onInventoryClick(final InventoryClickEvent event) {
+        final WorldConfiguration cfg = plugin.getWorldConfiguration(event.getWhoClicked().getWorld());
+        if (!cfg.isEnabled()) return;
         plugin.getServer().getScheduler().runTaskLater(plugin, new Runnable() {
             @Override
             public void run() {
@@ -50,19 +52,19 @@ public class CraftingListener implements Listener {
                             ContainerAnvilInventory nmsInv = (ContainerAnvilInventory) ((CraftInventoryAnvil) ai).getInventory();
                             Set<Integer> validEnchantmentIds = new HashSet<Integer>();
                             // get valid enchantment ids
-                            if (plugin.getWorldConfiguration(player.getWorld()).isEfficiencyEnabled() && player.hasPermission("enhancedfishing.enchantment.efficiency")) {
+                            if (cfg.isEfficiencyEnabled() && player.hasPermission("enhancedfishing.enchantment.efficiency")) {
                                 validEnchantmentIds.add(Enchantment.DIG_SPEED.getId());
                             }
-                            if (plugin.getWorldConfiguration(player.getWorld()).isLootingEnabled() && player.hasPermission("enhancedfishing.enchantment.looting")) {
+                            if (cfg.isLootingEnabled() && player.hasPermission("enhancedfishing.enchantment.looting")) {
                                 validEnchantmentIds.add(Enchantment.LOOT_BONUS_MOBS.getId());
                             }
-                            if (plugin.getWorldConfiguration(player.getWorld()).isFortuneEnabled() && player.hasPermission("enhancedfishing.enchantment.fortune")) {
+                            if (cfg.isFortuneEnabled() && player.hasPermission("enhancedfishing.enchantment.fortune")) {
                                 validEnchantmentIds.add(Enchantment.LOOT_BONUS_BLOCKS.getId());
                             }
-                            if (plugin.getWorldConfiguration(player.getWorld()).isFireAspectEnabled() && player.hasPermission("enhancedfishing.enchantment.fireaspect")) {
+                            if (cfg.isFireAspectEnabled() && player.hasPermission("enhancedfishing.enchantment.fireaspect")) {
                                 validEnchantmentIds.add(Enchantment.FIRE_ASPECT.getId());
                             }
-                            if (plugin.getWorldConfiguration(player.getWorld()).isThornsEnabled() && player.hasPermission("enhancedfishing.enchantment.thorns")) {
+                            if (cfg.isThornsEnabled() && player.hasPermission("enhancedfishing.enchantment.thorns")) {
                                 validEnchantmentIds.add(Enchantment.THORNS.getId());
                             }
                             try {
