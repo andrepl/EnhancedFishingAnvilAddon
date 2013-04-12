@@ -87,7 +87,7 @@ public class AnvilCalculator {
                     Map<Integer, Integer> filteredMap1 = new HashMap<Integer, Integer>();
                     for (Entry<Integer, Integer> e: map1.entrySet()) {
                         if (validEnchantmentIds.contains(e.getKey())) {
-                            filteredMap.put(e.getKey(), e.getValue());
+                            filteredMap1.put(e.getKey(), e.getValue());
                         }
                     }
                     iterator = filteredMap1.keySet().iterator();

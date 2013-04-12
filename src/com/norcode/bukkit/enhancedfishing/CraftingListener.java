@@ -35,7 +35,10 @@ public class CraftingListener implements Listener {
     @EventHandler(ignoreCancelled=true, priority=EventPriority.HIGHEST)
     public void onInventoryClick(final InventoryClickEvent event) {
         final WorldConfiguration cfg = plugin.getWorldConfiguration(event.getWhoClicked().getWorld());
-        if (!cfg.isEnabled()) return;
+        if (!cfg.isEnabled()) {
+            plugin.getLogger().info("Disabled for this world.");
+            return;
+        }
         plugin.getServer().getScheduler().runTaskLater(plugin, new Runnable() {
             @Override
             public void run() {
@@ -67,11 +70,13 @@ public class CraftingListener implements Listener {
                             if (cfg.isThornsEnabled() && player.hasPermission("enhancedfishing.enchantment.thorns")) {
                                 validEnchantmentIds.add(Enchantment.THORNS.getId());
                             }
+                            plugin.getLogger().info("Valid Enchantments: " + validEnchantmentIds);
                             try {
                                 Field containerField = ContainerAnvilInventory.class.getDeclaredField("a");
                                 containerField.setAccessible(true);
                                 ContainerAnvil anvil = (ContainerAnvil) containerField.get(nmsInv);
                                 AnvilResult anvilResult = AnvilCalculator.calculateCost(CraftItemStack.asNMSCopy(first), CraftItemStack.asNMSCopy(second), validEnchantmentIds);
+                                plugin.getLogger().info("Anvil Result: " + anvilResult.getEnchantments());
                                 if (anvilResult.getEnchantments() != null && !anvilResult.getEnchantments().isEmpty()) {
                                     anvil.a = anvilResult.getCost();
                                     resultStack.addUnsafeEnchantments(anvilResult.getEnchantments());
@@ -88,7 +93,6 @@ public class CraftingListener implements Listener {
                             } catch (IllegalAccessException e) {
                                 e.printStackTrace();
                             }
-                            
                         }
                     }
                 }
