@@ -36,7 +36,6 @@ public class CraftingListener implements Listener {
     public void onInventoryClick(final InventoryClickEvent event) {
         final WorldConfiguration cfg = plugin.getWorldConfiguration(event.getWhoClicked().getWorld());
         if (!cfg.isEnabled()) {
-            plugin.getLogger().info("Disabled for this world.");
             return;
         }
         plugin.getServer().getScheduler().runTaskLater(plugin, new Runnable() {
