@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_5_R2.inventory.CraftItemStack;
 
 import net.minecraft.server.v1_5_R2.Enchantment;
